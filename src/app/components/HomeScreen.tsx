@@ -331,24 +331,24 @@ export function HomeScreen() {
 
                   {/* Times */}
                   <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-5">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-8 w-auto shadow-md shrink-0" />
-                      <div className="min-w-0">
+                    <div className="flex items-center gap-2 justify-end min-w-0">
+                      <div className="min-w-0 text-right">
                         <p className="text-xs font-bold text-[#D1FAE5]">
                           {featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </p>
                         <p className="font-semibold text-white truncate">{featuredMatch.homeTeam}</p>
                       </div>
+                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-8 w-auto shadow-md shrink-0" />
                     </div>
                     <span className="text-3xl font-bold text-center px-3 text-[#86EFAC]">vs</span>
-                    <div className="flex items-center gap-2 justify-end min-w-0">
-                      <div className="min-w-0 text-right">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-8 w-auto shadow-md shrink-0" />
+                      <div className="min-w-0">
                         <p className="text-xs font-bold text-[#D1FAE5]">
                           {featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </p>
                         <p className="font-semibold text-white truncate">{featuredMatch.awayTeam}</p>
                       </div>
-                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-8 w-auto shadow-md shrink-0" />
                     </div>
                   </div>
 
@@ -398,20 +398,20 @@ export function HomeScreen() {
 
                     {/* Times */}
                     <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
+                      <div className="flex items-center gap-2 justify-end min-w-0">
+                        <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6] text-right">{match.homeTeam}</span>
                         <span className="text-xs font-bold uppercase shrink-0 text-[#6B7280] dark:text-[#8a8a8a]">
                           {match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </span>
-                        <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.homeTeam}</span>
+                        <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
                       </div>
-                      <span className="text-lg font-bold text-center px-2 text-[#9CA3AF] dark:text-[#6b7280]">vs</span>
-                      <div className="flex items-center gap-2 justify-end min-w-0">
-                        <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.awayTeam}</span>
+                      <span className="text-lg font-bold text-center px-3 text-[#9CA3AF] dark:text-[#6b7280]">vs</span>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
                         <span className="text-xs font-bold uppercase shrink-0 text-[#6B7280] dark:text-[#8a8a8a]">
                           {match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </span>
-                        <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
+                        <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.awayTeam}</span>
                       </div>
                     </div>
 
