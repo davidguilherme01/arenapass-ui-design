@@ -181,13 +181,21 @@ export function HomeScreen() {
         </div>
 
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <button
+            type="button"
+            onClick={() => document.getElementById('search-input')?.focus()}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-primary hover:bg-primary/10 transition-all duration-150 cursor-pointer"
+            aria-label="Buscar"
+          >
+            <Search className="w-5 h-5" />
+          </button>
           <input
+            id="search-input"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar times, estádios, cidades..."
-            className="w-full bg-white text-gray-900 rounded-xl pl-12 pr-10 py-3 outline-none"
+            className="w-full bg-white text-gray-900 rounded-xl pl-12 pr-10 py-3 outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
             aria-label="Buscar partidas"
           />
           {searchQuery && (
