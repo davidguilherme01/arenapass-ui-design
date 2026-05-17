@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Filter, ChevronRight, MapPin, Calendar, X } from 'lucide-react';
+import { Search, Filter, ChevronRight, MapPin, Calendar, X, Check, SlidersHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './ImageWithFallback';
 import { FlagIcon } from './FlagIcon';
@@ -328,50 +328,89 @@ export function HomeScreen() {
         )}
       </div>
 
-      {/* Filter panel overlay */}
+      {/* Filter panel overlay — z-[60] para cobrir a navbar */}
       {showFilterPanel && (
-        <div className="fixed inset-0 z-50 flex flex-col justify-end">
+        <div
+          className="fixed inset-0 z-[60] flex flex-col justify-end"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Filtros de partidas"
+        >
+          {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setShowFilterPanel(false)}
           />
-          <div className="relative bg-white rounded-t-3xl shadow-2xl flex flex-col max-h-[85vh]">
-            {/* Header fixo */}
-            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 shrink-0">
-              <h3 className="text-lg font-medium">Filtros</h3>
+
+          <div className="relative bg-white rounded-t-3xl shadow-2xl flex flex-col max-h-[88vh]">
+
+            {/* Drag handle visual */}
+            <div className="flex justify-center pt-3 pb-1 shrink-0">
+              <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            </div>
+
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 pt-3 pb-4 shrink-0">
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal className="w-5 h-5 text-primary" />
+                <h3 className="text-lg font-semibold">Filtros</h3>
+                {(pendingCity !== 'Todas as cidades' || pendingMaxPrice < 500) && (
+                  <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                    {[pendingCity !== 'Todas as cidades' ? 1 : 0, pendingMaxPrice < 500 ? 1 : 0].reduce((a, b) => a + b, 0)} ativo(s)
+                  </span>
+                )}
+              </div>
               <button
                 onClick={() => setShowFilterPanel(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+                aria-label="Fechar filtros"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
+            <div className="w-full h-px bg-gray-100 shrink-0" />
+
             {/* Conteúdo com scroll */}
-            <div className="overflow-y-auto flex-1 px-6 py-4">
-              <div className="mb-6">
-                <p className="font-medium mb-3">Cidade</p>
+            <div className="overflow-y-auto flex-1 px-6 py-5 space-y-7">
+
+              {/* Seção Cidade */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="font-semibold text-gray-800">Cidade</p>
+                  {pendingCity !== 'Todas as cidades' && (
+                    <span className="text-xs text-primary font-medium">
+                      Selecionada: {pendingCity}
+                    </span>
+                  )}
+                </div>
                 <div className="flex flex-wrap gap-2">
-                  {CITIES.map((city) => (
-                    <button
-                      key={city}
-                      onClick={() => setPendingCity(city)}
-                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${
-                        pendingCity === city
-                          ? 'bg-primary text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      {city}
-                    </button>
-                  ))}
+                  {CITIES.map((city) => {
+                    const isSelected = pendingCity === city;
+                    return (
+                      <button
+                        key={city}
+                        onClick={() => setPendingCity(city)}
+                        aria-pressed={isSelected}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer border ${
+                          isSelected
+                            ? 'bg-primary text-white border-primary shadow-md scale-105'
+                            : 'bg-gray-50 text-gray-700 border-gray-200 hover:border-primary/40 hover:bg-primary/5'
+                        }`}
+                      >
+                        {isSelected && <Check className="w-3.5 h-3.5 shrink-0" />}
+                        {city}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
+              {/* Seção Preço */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="font-medium">Preço máximo</p>
-                  <span className="text-primary font-medium">
+                  <p className="font-semibold text-gray-800">Preço máximo</p>
+                  <span className={`text-sm font-semibold ${pendingMaxPrice < 500 ? 'text-primary' : 'text-gray-400'}`}>
                     {pendingMaxPrice === 500 ? 'Sem limite' : `R$ ${pendingMaxPrice}`}
                   </span>
                 </div>
@@ -382,28 +421,52 @@ export function HomeScreen() {
                   step={20}
                   value={pendingMaxPrice}
                   onChange={(e) => setPendingMaxPrice(Number(e.target.value))}
-                  className="w-full accent-primary"
+                  className="w-full accent-primary h-2 cursor-pointer"
+                  aria-label="Preço máximo do ingresso"
                 />
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <div className="flex justify-between text-xs text-gray-400 mt-2">
                   <span>R$ 200</span>
                   <span>Sem limite</span>
                 </div>
+                {pendingMaxPrice < 500 && (
+                  <p className="text-xs text-primary/80 mt-2">
+                    Mostrando ingressos até R$ {pendingMaxPrice}
+                  </p>
+                )}
               </div>
             </div>
 
-            {/* Botões fixos na base */}
-            <div className="flex gap-3 px-6 py-4 border-t border-gray-100 shrink-0">
+            {/* Rodapé fixo com botões — pb extra para não sobrepor navbar */}
+            <div className="shrink-0 px-6 pt-4 pb-8 border-t border-gray-100 bg-white space-y-3">
+
+              {/* Resumo da seleção pendente */}
+              {(pendingCity !== selectedCity || pendingMaxPrice !== maxPrice) && (
+                <div className="flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                  Clique em "Confirmar" para aplicar a seleção
+                </div>
+              )}
+
               <button
                 onClick={clearFilters}
-                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+                className="w-full py-3 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition-colors cursor-pointer"
+                aria-label="Limpar todos os filtros"
               >
-                Limpar
+                Limpar filtros
               </button>
+
               <button
                 onClick={applyFilters}
-                className="flex-1 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors cursor-pointer"
+                className="w-full py-4 rounded-2xl bg-primary text-white font-semibold text-base shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-95 transition-all cursor-pointer"
+                aria-label={
+                  pendingCity !== 'Todas as cidades'
+                    ? `Confirmar cidade: ${pendingCity}`
+                    : 'Aplicar filtros'
+                }
               >
-                Aplicar
+                {pendingCity !== 'Todas as cidades'
+                  ? `Confirmar: ${pendingCity}`
+                  : 'Aplicar filtros'}
               </button>
             </div>
           </div>
