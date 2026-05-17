@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Eye, Type, Contrast } from 'lucide-react';
+import { Eye, Type, Contrast, Moon } from 'lucide-react';
 
 export function AccessibilitySettings() {
   const [fontSize, setFontSize] = useState(16);
   const [highContrast, setHighContrast] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const savedFontSize = localStorage.getItem('fontSize');
     const savedHighContrast = localStorage.getItem('highContrast');
+    const savedDarkMode = localStorage.getItem('darkMode');
 
     if (savedFontSize) setFontSize(parseInt(savedFontSize));
     if (savedHighContrast) setHighContrast(savedHighContrast === 'true');
+    if (savedDarkMode) setDarkMode(savedDarkMode === 'true');
   }, []);
 
   useEffect(() => {
@@ -27,6 +30,15 @@ export function AccessibilitySettings() {
     localStorage.setItem('highContrast', highContrast.toString());
   }, [highContrast]);
 
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('darkMode', darkMode.toString());
+  }, [darkMode]);
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="p-6 border-b border-gray-100">
@@ -40,7 +52,32 @@ export function AccessibilitySettings() {
       </div>
 
       <div className="p-6 space-y-6">
-        <div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Moon className="w-5 h-5 text-gray-600" />
+            <div>
+              <p className="font-medium">Tema Escuro</p>
+              <p className="text-sm text-gray-600">Reduz o brilho da tela</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className={`relative w-14 h-8 rounded-full transition-colors ${
+              darkMode ? 'bg-primary' : 'bg-gray-300'
+            }`}
+            role="switch"
+            aria-checked={darkMode}
+            aria-label="Alternar tema escuro"
+          >
+            <div
+              className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform ${
+                darkMode ? 'translate-x-6' : 'translate-x-0'
+              }`}
+            />
+          </button>
+        </div>
+
+        <div className="pt-6 border-t border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <Type className="w-5 h-5 text-gray-600" />

@@ -6,6 +6,13 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>ArenaPass UI Design</title>
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+      <script>
+        (function() {
+          if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+          }
+        })();
+      </script>
     </head>
 
     <body>
