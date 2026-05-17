@@ -88,15 +88,9 @@ export function MyTickets() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="absolute -top-3 left-0 right-0 flex justify-center gap-2">
-                {Array.from({ length: 20 }).map((_, i) => (
-                  <div key={i} className="w-2 h-2 bg-gray-50 rounded-full" />
-                ))}
-              </div>
-            </div>
+            <div className="mx-6 border-t border-dashed border-gray-200" />
 
-            <div className="p-6 pt-8">
+            <div className="p-6 pt-5">
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Estádio</p>
