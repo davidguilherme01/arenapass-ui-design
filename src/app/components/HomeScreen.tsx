@@ -2,16 +2,15 @@ import { useState } from 'react';
 import { Search, Filter, ChevronRight, MapPin, Calendar, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './ImageWithFallback';
+import { FlagIcon } from './FlagIcon';
 
 type Category = 'Todos' | 'Semifinal' | 'Quartas';
 
 const ALL_MATCHES = [
   {
     id: 1,
-    homeTeam: 'Brasil',
-    awayTeam: 'Argentina',
-    homeFlag: '🇧🇷',
-    awayFlag: '🇦🇷',
+    homeTeam: 'Brasil',    homeCode: 'br',
+    awayTeam: 'Argentina', awayCode: 'ar',
     date: '24 Jun 2026',
     time: '16:00',
     stadium: 'Estádio Maracanã',
@@ -23,10 +22,8 @@ const ALL_MATCHES = [
   },
   {
     id: 2,
-    homeTeam: 'Alemanha',
-    awayTeam: 'França',
-    homeFlag: '🇩🇪',
-    awayFlag: '🇫🇷',
+    homeTeam: 'Alemanha',  homeCode: 'de',
+    awayTeam: 'França',    awayCode: 'fr',
     date: '25 Jun 2026',
     time: '20:00',
     stadium: 'Estádio do Morumbi',
@@ -38,10 +35,8 @@ const ALL_MATCHES = [
   },
   {
     id: 3,
-    homeTeam: 'Espanha',
-    awayTeam: 'Portugal',
-    homeFlag: '🇪🇸',
-    awayFlag: '🇵🇹',
+    homeTeam: 'Espanha',   homeCode: 'es',
+    awayTeam: 'Portugal',  awayCode: 'pt',
     date: '22 Jun 2026',
     time: '18:00',
     stadium: 'Arena Fonte Nova',
@@ -53,10 +48,8 @@ const ALL_MATCHES = [
   },
   {
     id: 4,
-    homeTeam: 'Inglaterra',
-    awayTeam: 'Holanda',
-    homeFlag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-    awayFlag: '🇳🇱',
+    homeTeam: 'Inglaterra', homeCode: 'gb-eng',
+    awayTeam: 'Holanda',    awayCode: 'nl',
     date: '21 Jun 2026',
     time: '20:00',
     stadium: 'Arena Castelão',
@@ -68,10 +61,8 @@ const ALL_MATCHES = [
   },
   {
     id: 5,
-    homeTeam: 'Uruguai',
-    awayTeam: 'Itália',
-    homeFlag: '🇺🇾',
-    awayFlag: '🇮🇹',
+    homeTeam: 'Uruguai',  homeCode: 'uy',
+    awayTeam: 'Itália',   awayCode: 'it',
     date: '20 Jun 2026',
     time: '16:00',
     stadium: 'Mineirão',
@@ -83,10 +74,8 @@ const ALL_MATCHES = [
   },
   {
     id: 6,
-    homeTeam: 'EUA',
-    awayTeam: 'México',
-    homeFlag: '🇺🇸',
-    awayFlag: '🇲🇽',
+    homeTeam: 'EUA',    homeCode: 'us',
+    awayTeam: 'México', awayCode: 'mx',
     date: '19 Jun 2026',
     time: '18:00',
     stadium: 'Arena Amazônia',
@@ -229,12 +218,14 @@ export function HomeScreen() {
                   </div>
                   <div className="flex items-center gap-4 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-3xl">{featuredMatch.homeFlag}</span>
+                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-7 w-auto shadow-sm" />
+                      <span className="text-xs font-bold uppercase opacity-80">{featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
                       <span className="font-medium">{featuredMatch.homeTeam}</span>
                     </div>
                     <span className="text-xl">vs</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-3xl">{featuredMatch.awayFlag}</span>
+                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-7 w-auto shadow-sm" />
+                      <span className="text-xs font-bold uppercase opacity-80">{featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
                       <span className="font-medium">{featuredMatch.awayTeam}</span>
                     </div>
                   </div>
@@ -279,14 +270,16 @@ export function HomeScreen() {
                     </div>
 
                     <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <span className="text-3xl">{match.homeFlag}</span>
+                      <div className="flex items-center gap-2">
+                        <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm" />
+                        <span className="text-xs font-bold text-gray-500 uppercase">{match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
                         <span className="font-medium">{match.homeTeam}</span>
                       </div>
-                      <span className="text-gray-400">vs</span>
-                      <div className="flex items-center gap-3">
+                      <span className="text-gray-400 text-sm">vs</span>
+                      <div className="flex items-center gap-2">
                         <span className="font-medium">{match.awayTeam}</span>
-                        <span className="text-3xl">{match.awayFlag}</span>
+                        <span className="text-xs font-bold text-gray-500 uppercase">{match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
+                        <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm" />
                       </div>
                     </div>
 

@@ -1,6 +1,7 @@
 import { ArrowLeft, Calendar, MapPin, Users, Info } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
 import { ImageWithFallback } from './ImageWithFallback';
+import { FlagIcon } from './FlagIcon';
 
 export function MatchDetails() {
   const navigate = useNavigate();
@@ -35,13 +36,15 @@ export function MatchDetails() {
             Semifinal
           </div>
           <div className="flex items-center gap-4 mb-2">
-            <div className="flex items-center gap-2">
-              <span className="text-4xl">🇧🇷</span>
+            <div className="flex items-center gap-3">
+              <FlagIcon code="br" size={40} alt="Brasil" className="h-8 w-auto shadow-md" />
+              <span className="text-xs font-bold opacity-75">BR</span>
               <span className="text-xl">Brasil</span>
             </div>
             <span className="text-2xl">vs</span>
-            <div className="flex items-center gap-2">
-              <span className="text-4xl">🇦🇷</span>
+            <div className="flex items-center gap-3">
+              <FlagIcon code="ar" size={40} alt="Argentina" className="h-8 w-auto shadow-md" />
+              <span className="text-xs font-bold opacity-75">AR</span>
               <span className="text-xl">Argentina</span>
             </div>
           </div>

@@ -1,13 +1,14 @@
 import { Download, Share2, Bell, QrCode, MapPin, Calendar } from 'lucide-react';
 import { BottomNavigation } from './BottomNavigation';
+import { FlagIcon } from './FlagIcon';
 
 export function MyTickets() {
   const tickets = [
     {
       id: 1,
       matchTitle: 'Brasil vs Argentina',
-      homeFlag: '🇧🇷',
-      awayFlag: '🇦🇷',
+      homeCode: 'br',
+      awayCode: 'ar',
       date: '24 Jun 2026',
       time: '16:00',
       stadium: 'Estádio Maracanã',
@@ -20,8 +21,8 @@ export function MyTickets() {
     {
       id: 2,
       matchTitle: 'Alemanha vs França',
-      homeFlag: '🇩🇪',
-      awayFlag: '🇫🇷',
+      homeCode: 'de',
+      awayCode: 'fr',
       date: '25 Jun 2026',
       time: '20:00',
       stadium: 'Estádio do Morumbi',
@@ -62,12 +63,14 @@ export function MyTickets() {
 
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-4xl">{ticket.homeFlag}</span>
+                    <FlagIcon code={ticket.homeCode} size={40} alt={ticket.matchTitle.split(' vs ')[0]} className="h-7 w-auto shadow-sm" />
+                    <span className="text-xs font-bold uppercase opacity-75">{ticket.homeCode.toUpperCase()}</span>
                     <span className="text-xl">{ticket.matchTitle.split(' vs ')[0]}</span>
                   </div>
                   <span className="text-xl">vs</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-4xl">{ticket.awayFlag}</span>
+                    <FlagIcon code={ticket.awayCode} size={40} alt={ticket.matchTitle.split(' vs ')[1]} className="h-7 w-auto shadow-sm" />
+                    <span className="text-xs font-bold uppercase opacity-75">{ticket.awayCode.toUpperCase()}</span>
                     <span className="text-xl">{ticket.matchTitle.split(' vs ')[1]}</span>
                   </div>
                 </div>
