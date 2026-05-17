@@ -71,7 +71,7 @@ export function ProfileScreen() {
           <p className="text-sm text-gray-700 mb-3">
             Você tem 850 pontos! Troque por descontos em ingressos.
           </p>
-          <button className="w-full py-2 bg-accent text-gray-900 rounded-lg">
+          <button className="w-full py-2 bg-accent text-gray-900 rounded-lg hover:bg-accent/80 transition-colors cursor-pointer">
             Ver Recompensas
           </button>
         </div>

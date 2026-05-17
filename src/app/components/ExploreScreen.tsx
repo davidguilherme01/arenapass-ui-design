@@ -56,7 +56,7 @@ export function ExploreScreen() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2>Estádios</h2>
-            <button className="text-primary text-sm">Ver todos</button>
+            <button className="text-primary text-sm hover:text-primary/70 transition-colors cursor-pointer">Ver todos</button>
           </div>
 
           <div className="space-y-4">
@@ -88,7 +88,7 @@ export function ExploreScreen() {
                 </div>
                 <div className="p-4 bg-gray-50 flex items-center justify-between">
                   <span className="text-sm text-gray-600">Capacidade: {stadium.capacity}</span>
-                  <button className="px-4 py-2 bg-primary text-white rounded-lg text-sm">
+                  <button className="px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors cursor-pointer">
                     Ver Partidas
                   </button>
                 </div>
@@ -100,7 +100,7 @@ export function ExploreScreen() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2>Seleções</h2>
-            <button className="text-primary text-sm">Ver todas</button>
+            <button className="text-primary text-sm hover:text-primary/70 transition-colors cursor-pointer">Ver todas</button>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

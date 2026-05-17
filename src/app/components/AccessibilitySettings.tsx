@@ -119,19 +119,19 @@ export function AccessibilitySettings() {
           <div className="mt-3 flex gap-2">
             <button
               onClick={() => setFontSize(14)}
-              className={`px-4 py-2 rounded-lg ${fontSize === 14 ? 'bg-primary text-white' : 'bg-gray-100'}`}
+              className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${fontSize === 14 ? 'bg-primary text-white hover:bg-primary/90' : 'bg-gray-100 hover:bg-gray-200'}`}
             >
               Pequeno
             </button>
             <button
               onClick={() => setFontSize(16)}
-              className={`px-4 py-2 rounded-lg ${fontSize === 16 ? 'bg-primary text-white' : 'bg-gray-100'}`}
+              className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${fontSize === 16 ? 'bg-primary text-white hover:bg-primary/90' : 'bg-gray-100 hover:bg-gray-200'}`}
             >
               Padrão
             </button>
             <button
               onClick={() => setFontSize(20)}
-              className={`px-4 py-2 rounded-lg ${fontSize === 20 ? 'bg-primary text-white' : 'bg-gray-100'}`}
+              className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${fontSize === 20 ? 'bg-primary text-white hover:bg-primary/90' : 'bg-gray-100 hover:bg-gray-200'}`}
             >
               Grande
             </button>

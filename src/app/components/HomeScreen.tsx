@@ -75,17 +75,17 @@ export function HomeScreen() {
 
       <div className="px-6 py-6">
         <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-gray-200 whitespace-nowrap shadow-sm">
+          <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-gray-200 whitespace-nowrap shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer">
             <Filter className="w-4 h-4" />
             <span className="text-sm">Filtros</span>
           </button>
-          <button className="px-4 py-2 bg-primary text-white rounded-xl whitespace-nowrap shadow-sm">
+          <button className="px-4 py-2 bg-primary text-white rounded-xl whitespace-nowrap shadow-sm hover:bg-primary/90 transition-colors cursor-pointer">
             Todos
           </button>
-          <button className="px-4 py-2 bg-white rounded-xl border border-gray-200 whitespace-nowrap shadow-sm">
+          <button className="px-4 py-2 bg-white rounded-xl border border-gray-200 whitespace-nowrap shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer">
             Semifinais
           </button>
-          <button className="px-4 py-2 bg-white rounded-xl border border-gray-200 whitespace-nowrap shadow-sm">
+          <button className="px-4 py-2 bg-white rounded-xl border border-gray-200 whitespace-nowrap shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer">
             Quartas
           </button>
         </div>
@@ -131,7 +131,7 @@ export function HomeScreen() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2>Próximas Partidas</h2>
-            <button className="text-primary text-sm flex items-center gap-1">
+            <button className="text-primary text-sm flex items-center gap-1 hover:text-primary/70 transition-colors cursor-pointer">
               Ver todas
               <ChevronRight className="w-4 h-4" />
             </button>

@@ -149,7 +149,7 @@ export function MyTickets() {
             <p className="text-gray-600 mb-6">
               Compre ingressos para ver suas partidas aqui
             </p>
-            <button className="px-6 py-3 bg-primary text-white rounded-xl">
+            <button className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors cursor-pointer">
               Explorar Partidas
             </button>
           </div>

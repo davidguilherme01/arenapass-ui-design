@@ -24,8 +24,8 @@ export function BottomNavigation() {
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 transition-colors ${
-                  isActive ? 'text-primary' : 'text-gray-500'
+                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-colors cursor-pointer ${
+                  isActive ? 'text-primary' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'
                 }`}
               >
                 <Icon className="w-6 h-6" />

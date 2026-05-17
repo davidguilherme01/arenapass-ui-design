@@ -25,7 +25,7 @@ export function MatchDetails() {
 
         <button
           onClick={() => navigate(-1)}
-          className="absolute top-6 left-6 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg"
+          className="absolute top-6 left-6 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
