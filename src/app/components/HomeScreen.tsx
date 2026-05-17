@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Search, Filter, ChevronRight, MapPin, Calendar, X, Check, SlidersHorizontal } from 'lucide-react';
+import { Search, Filter, ChevronRight, MapPin, Calendar, X, Check, SlidersHorizontal, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './ImageWithFallback';
 import { FlagIcon } from './FlagIcon';
@@ -126,6 +126,18 @@ export function HomeScreen() {
   const [pendingMaxPrice, setPendingMaxPrice] = useState(500);
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const stored = localStorage.getItem('arenapass_user');
+  const currentUser = stored
+    ? (JSON.parse(stored) as { name: string; email: string })
+    : { name: 'Usuário', email: '' };
+  const initials = currentUser.name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
+
+  function handleLogout() {
+    localStorage.removeItem('arenapass_user');
+    navigate('/login', { replace: true });
+  }
 
   const filteredMatches = ALL_MATCHES.filter((m) => {
     const categoryMatch = activeCategory === 'Todos' || m.category === activeCategory;
@@ -176,8 +188,38 @@ export function HomeScreen() {
             <h1 className="text-3xl mb-1">ArenaPass</h1>
             <p className="text-white/80 text-sm">Copa do Mundo 2026</p>
           </div>
-          <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-            <span className="text-2xl">⚽</span>
+          <div className="relative">
+            <button
+              onClick={() => setShowUserMenu(v => !v)}
+              className="w-12 h-12 bg-accent rounded-full flex items-center justify-center hover:bg-accent/80 active:scale-95 transition-all cursor-pointer shadow-md"
+              aria-label="Menu do usuário"
+              aria-expanded={showUserMenu}
+            >
+              {initials ? (
+                <span className="text-primary font-bold text-base leading-none">{initials}</span>
+              ) : (
+                <User className="w-5 h-5 text-primary" />
+              )}
+            </button>
+
+            {showUserMenu && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} />
+                <div className="absolute right-0 top-14 z-50 w-60 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                  <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                    <p className="font-semibold text-gray-900 text-sm truncate">{currentUser.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{currentUser.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4 shrink-0" />
+                    <span className="text-sm font-medium">Sair da Conta</span>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
