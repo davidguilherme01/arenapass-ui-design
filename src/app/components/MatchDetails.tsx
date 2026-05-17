@@ -66,7 +66,7 @@ export function MatchDetails() {
               <MapPin className="w-4 h-4" />
               <span className="text-sm">Estádio</span>
             </div>
-            <p className="font-medium">Maracanã</p>
+            <p className="font-medium">MetLife Stadium</p>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4">
@@ -74,7 +74,7 @@ export function MatchDetails() {
               <Users className="w-4 h-4" />
               <span className="text-sm">Capacidade</span>
             </div>
-            <p className="font-medium">78.838</p>
+            <p className="font-medium">82.500</p>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4">
@@ -82,14 +82,14 @@ export function MatchDetails() {
               <Info className="w-4 h-4" />
               <span className="text-sm">Cidade</span>
             </div>
-            <p className="font-medium">Rio de Janeiro</p>
+            <p className="font-medium">Nova York / Nova Jersey 🇺🇸</p>
           </div>
         </div>
 
         <div className="mb-6">
           <h2 className="mb-4">Sobre a Partida</h2>
           <p className="text-gray-600 leading-relaxed">
-            O clássico sul-americano volta à Copa do Mundo em uma semifinal histórica. Brasil e Argentina se enfrentam no icônico Estádio Maracanã em busca de uma vaga na grande final.
+            O clássico sul-americano volta à Copa do Mundo em uma semifinal histórica. Brasil e Argentina se enfrentam no MetLife Stadium, em Nova York / Nova Jersey (EUA), uma das maiores arenas da Copa do Mundo 2026, que pela primeira vez é realizada em 3 países: Estados Unidos, Canadá e México.
           </p>
         </div>
 
