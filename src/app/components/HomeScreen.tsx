@@ -255,8 +255,7 @@ export function HomeScreen() {
 
               {/* Card verde FIFA elegante */}
               <div
-                className="relative rounded-2xl overflow-hidden border cursor-pointer"
-                style={{ backgroundColor: '#14532D', borderColor: '#166534' }}
+                className="relative rounded-2xl overflow-hidden border border-[#166534] bg-[#14532D] cursor-pointer"
                 onClick={() => navigate(`/match/${featuredMatch.id}`)}
               >
                 {/* Imagem como textura de fundo */}
@@ -265,23 +264,16 @@ export function HomeScreen() {
                   alt="Featured match"
                   className="absolute inset-0 w-full h-full object-cover opacity-10"
                 />
-
-                {/* Padrão decorativo */}
-                <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-5"
-                  style={{ background: 'radial-gradient(circle, #86EFAC, transparent)', transform: 'translate(30%, -30%)' }} />
-                <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full opacity-5"
-                  style={{ background: 'radial-gradient(circle, #86EFAC, transparent)', transform: 'translate(-30%, 30%)' }} />
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-5 bg-[radial-gradient(circle,#86EFAC,transparent)] translate-x-1/3 -translate-y-1/3" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full opacity-5 bg-[radial-gradient(circle,#86EFAC,transparent)] -translate-x-1/3 translate-y-1/3" />
 
                 <div className="relative p-6">
                   {/* Topo: categoria + preço */}
                   <div className="flex items-center justify-between mb-5">
-                    <span
-                      className="px-3 py-1 rounded-lg text-xs font-semibold"
-                      style={{ backgroundColor: '#FACC15', color: '#14532D' }}
-                    >
+                    <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-[#FACC15] text-[#14532D]">
                       {featuredMatch.category}
                     </span>
-                    <span className="text-lg font-bold" style={{ color: '#FACC15' }}>
+                    <span className="text-lg font-bold text-[#FACC15]">
                       {featuredMatch.priceLabel}
                     </span>
                   </div>
@@ -291,16 +283,16 @@ export function HomeScreen() {
                     <div className="flex items-center gap-2 min-w-0">
                       <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-8 w-auto shadow-md shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-xs font-bold shrink-0" style={{ color: '#D1FAE5' }}>
+                        <p className="text-xs font-bold text-[#D1FAE5]">
                           {featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </p>
                         <p className="font-semibold text-white truncate">{featuredMatch.homeTeam}</p>
                       </div>
                     </div>
-                    <span className="text-xl font-bold text-center px-3" style={{ color: '#86EFAC' }}>vs</span>
+                    <span className="text-xl font-bold text-center px-3 text-[#86EFAC]">vs</span>
                     <div className="flex items-center gap-2 justify-end min-w-0">
                       <div className="min-w-0 text-right">
-                        <p className="text-xs font-bold" style={{ color: '#D1FAE5' }}>
+                        <p className="text-xs font-bold text-[#D1FAE5]">
                           {featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </p>
                         <p className="font-semibold text-white truncate">{featuredMatch.awayTeam}</p>
@@ -310,7 +302,7 @@ export function HomeScreen() {
                   </div>
 
                   {/* Rodapé: data + local */}
-                  <div className="flex items-center justify-between text-sm" style={{ color: '#D1FAE5' }}>
+                  <div className="flex items-center justify-between text-sm text-[#D1FAE5]">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       {featuredMatch.date} • {featuredMatch.time}
@@ -341,24 +333,14 @@ export function HomeScreen() {
                   <div
                     key={match.id}
                     onClick={() => navigate(`/match/${match.id}`)}
-                    className="rounded-2xl p-5 cursor-pointer transition-all duration-150 border"
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      borderColor: '#E5E7EB',
-                      boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
+                    className="bg-white dark:bg-[#1e1e1e] border border-[#E5E7EB] dark:border-white/10 rounded-2xl p-5 cursor-pointer transition-colors duration-150 hover:bg-[#F9FAFB] dark:hover:bg-[#2a2a2a] shadow-[0_1px_4px_rgba(0,0,0,0.06)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
                   >
                     {/* Topo: categoria + preço */}
                     <div className="flex items-center justify-between mb-3">
-                      <span
-                        className="px-3 py-1 rounded-lg text-xs font-medium"
-                        style={{ backgroundColor: '#F3F4F6', color: '#374151' }}
-                      >
+                      <span className="px-3 py-1 rounded-lg text-xs font-medium bg-[#F3F4F6] dark:bg-[#2a2a2a] text-[#374151] dark:text-[#c8c8c8]">
                         {match.category}
                       </span>
-                      <span className="font-semibold text-sm" style={{ color: '#16A34A' }}>
+                      <span className="font-semibold text-sm text-[#16A34A]">
                         {match.priceLabel}
                       </span>
                     </div>
@@ -367,15 +349,15 @@ export function HomeScreen() {
                     <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
                       <div className="flex items-center gap-2 min-w-0">
                         <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
-                        <span className="text-xs font-bold uppercase shrink-0" style={{ color: '#6B7280' }}>
+                        <span className="text-xs font-bold uppercase shrink-0 text-[#6B7280] dark:text-[#8a8a8a]">
                           {match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </span>
-                        <span className="font-semibold truncate" style={{ color: '#111827' }}>{match.homeTeam}</span>
+                        <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.homeTeam}</span>
                       </div>
-                      <span className="text-sm font-medium text-center px-2" style={{ color: '#9CA3AF' }}>vs</span>
+                      <span className="text-sm font-medium text-center px-2 text-[#9CA3AF] dark:text-[#6b7280]">vs</span>
                       <div className="flex items-center gap-2 justify-end min-w-0">
-                        <span className="font-semibold truncate" style={{ color: '#111827' }}>{match.awayTeam}</span>
-                        <span className="text-xs font-bold uppercase shrink-0" style={{ color: '#6B7280' }}>
+                        <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.awayTeam}</span>
+                        <span className="text-xs font-bold uppercase shrink-0 text-[#6B7280] dark:text-[#8a8a8a]">
                           {match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}
                         </span>
                         <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
@@ -383,7 +365,7 @@ export function HomeScreen() {
                     </div>
 
                     {/* Rodapé: data + estádio */}
-                    <div className="flex items-center justify-between text-xs" style={{ color: '#6B7280' }}>
+                    <div className="flex items-center justify-between text-xs text-[#6B7280] dark:text-[#8a8a8a]">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3.5 h-3.5" />
                         {match.date} • {match.time}
