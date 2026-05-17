@@ -11,7 +11,7 @@ import { BottomNavigation } from './components/BottomNavigation';
 
 export default function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <div className="size-full bg-gray-50">
         <Routes>
           <Route path="/" element={<><HomeScreen /><BottomNavigation /></>} />
