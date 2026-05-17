@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Search, Filter, ChevronRight, MapPin, Calendar, X, Check, SlidersHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { ImageWithFallback } from './ImageWithFallback';
@@ -125,6 +125,7 @@ export function HomeScreen() {
   const [pendingCity, setPendingCity] = useState('Todas as cidades');
   const [pendingMaxPrice, setPendingMaxPrice] = useState(500);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const filteredMatches = ALL_MATCHES.filter((m) => {
     const categoryMatch = activeCategory === 'Todos' || m.category === activeCategory;
@@ -183,14 +184,14 @@ export function HomeScreen() {
         <div className="relative">
           <button
             type="button"
-            onClick={() => document.getElementById('search-input')?.focus()}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-primary hover:bg-primary/10 transition-all duration-150 cursor-pointer"
+            onClick={() => searchInputRef.current?.focus()}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 dark:text-[#9a9a9a] hover:text-primary hover:bg-primary/20 active:scale-95 transition-all duration-150 cursor-pointer"
             aria-label="Buscar"
           >
             <Search className="w-5 h-5" />
           </button>
           <input
-            id="search-input"
+            ref={searchInputRef}
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
