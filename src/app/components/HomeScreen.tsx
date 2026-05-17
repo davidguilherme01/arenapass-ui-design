@@ -182,23 +182,23 @@ export function HomeScreen() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
-      <header className="bg-primary text-white px-6 py-8 rounded-b-3xl shadow-lg">
-        <div className="flex items-center justify-between mb-6">
+      <header className="bg-primary text-white px-6 py-5 rounded-b-3xl shadow-lg">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl mb-1">ArenaPass</h1>
+            <h1 className="text-4xl mb-0.5">ArenaPass</h1>
             <p className="text-white/80 text-sm">Copa do Mundo 2026</p>
           </div>
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(v => !v)}
-              className="w-12 h-12 bg-accent rounded-full flex items-center justify-center hover:bg-accent/80 active:scale-95 transition-all cursor-pointer shadow-md"
+              className="w-14 h-14 bg-accent rounded-full flex items-center justify-center hover:bg-accent/80 active:scale-95 transition-all cursor-pointer shadow-md"
               aria-label="Menu do usuário"
               aria-expanded={showUserMenu}
             >
               {initials ? (
-                <span className="text-primary font-bold text-base leading-none">{initials}</span>
+                <span className="text-primary font-bold text-lg leading-none">{initials}</span>
               ) : (
-                <User className="w-5 h-5 text-primary" />
+                <User className="w-6 h-6 text-primary" />
               )}
             </button>
 
@@ -227,10 +227,10 @@ export function HomeScreen() {
           <button
             type="button"
             onClick={() => searchInputRef.current?.focus()}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 dark:text-[#9a9a9a] hover:text-primary hover:bg-primary/20 active:scale-95 transition-all duration-150 cursor-pointer"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-lg text-gray-500 dark:text-[#9a9a9a] hover:text-primary hover:bg-primary/20 active:scale-95 transition-all duration-150 cursor-pointer"
             aria-label="Buscar"
           >
-            <Search className="w-5 h-5" />
+            <Search className="w-6 h-6" />
           </button>
           <input
             ref={searchInputRef}
@@ -238,7 +238,7 @@ export function HomeScreen() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar times, estádios, cidades..."
-            className="w-full bg-white text-gray-900 rounded-xl pl-12 pr-10 py-3 outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
+            className="w-full bg-white text-gray-900 rounded-xl pl-14 pr-10 py-3.5 text-base outline-none focus:ring-2 focus:ring-primary/30 transition-shadow"
             aria-label="Buscar partidas"
           />
           {searchQuery && (

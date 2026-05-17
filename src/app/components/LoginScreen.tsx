@@ -73,7 +73,7 @@ export function LoginScreen() {
     <div className="flex flex-col min-h-screen">
 
       {/* ── Hero ── */}
-      <div className="relative bg-primary flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden">
+      <div className="relative bg-primary flex flex-col items-center justify-center pt-10 pb-10 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
           alt=""
@@ -83,20 +83,20 @@ export function LoginScreen() {
         <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-white/5 -ml-20 -mb-20 pointer-events-none" />
 
         <div className="relative text-center text-white px-6">
-          <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg shadow-black/20">
-            <span className="text-4xl">⚽</span>
+          <div className="w-28 h-28 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl shadow-black/20">
+            <span className="text-6xl">⚽</span>
           </div>
-          <h1 className="text-4xl font-bold mb-2 tracking-tight">ArenaPass</h1>
-          <p className="text-white/80 text-base">Copa do Mundo FIFA 2026</p>
-          <p className="text-white/50 text-sm mt-1.5">🇺🇸 🇨🇦 🇲🇽 · 16 cidades · 48 seleções</p>
+          <h1 className="text-5xl font-bold mb-2 tracking-tight">ArenaPass</h1>
+          <p className="text-white/80 text-lg">Copa do Mundo FIFA 2026</p>
+          <p className="text-white/50 text-sm mt-1">🇺🇸 🇨🇦 🇲🇽 · 16 cidades · 48 seleções</p>
         </div>
       </div>
 
       {/* ── Form card ── */}
-      <div className="flex-1 bg-white rounded-t-3xl -mt-6 relative z-10 shadow-2xl px-6 pt-8 pb-12">
+      <div className="flex-1 bg-white rounded-t-3xl -mt-8 relative z-10 shadow-2xl px-6 pt-7 pb-10">
 
         {/* Tab switcher */}
-        <div className="flex bg-gray-100 rounded-2xl p-1 mb-7">
+        <div className="flex bg-gray-100 rounded-2xl p-1 mb-5">
           {(['login', 'register'] as Mode[]).map(m => (
             <button
               key={m}
@@ -118,14 +118,14 @@ export function LoginScreen() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Nome completo</label>
               <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
                   value={name}
                   onChange={e => setName(e.target.value)}
                   placeholder="Seu nome completo"
                   autoComplete="name"
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900"
+                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
                 />
               </div>
             </div>
@@ -134,14 +134,14 @@ export function LoginScreen() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">E-mail</label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="seu@email.com"
                 autoComplete="email"
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900"
+                className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
               />
             </div>
           </div>
@@ -149,14 +149,14 @@ export function LoginScreen() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Senha</label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder={mode === 'register' ? 'Mínimo 6 caracteres' : 'Sua senha'}
                 autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                className="w-full pl-10 pr-11 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900"
+                className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
               />
               <button
                 type="button"
@@ -164,7 +164,7 @@ export function LoginScreen() {
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
                 aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
               >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -173,14 +173,14 @@ export function LoginScreen() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirmar senha</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                 <input
                   type={showConfirm ? 'text' : 'password'}
                   value={confirm}
                   onChange={e => setConfirm(e.target.value)}
                   placeholder="Repita a senha"
                   autoComplete="new-password"
-                  className="w-full pl-10 pr-11 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900"
+                  className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
                 />
                 <button
                   type="button"
@@ -188,7 +188,7 @@ export function LoginScreen() {
                   className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
                   aria-label={showConfirm ? 'Ocultar senha' : 'Mostrar senha'}
                 >
-                  {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
@@ -215,7 +215,7 @@ export function LoginScreen() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-primary text-white font-semibold rounded-2xl shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            className="w-full py-4 bg-primary text-white font-semibold text-lg rounded-2xl shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
