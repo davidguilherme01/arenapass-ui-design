@@ -1,8 +1,19 @@
 import { User, Settings, Bell, CreditCard, Globe, HelpCircle, LogOut, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router';
 import { BottomNavigation } from './BottomNavigation';
 import { AccessibilitySettings } from './AccessibilitySettings';
 
 export function ProfileScreen() {
+  const navigate = useNavigate();
+
+  const stored = localStorage.getItem('arenapass_user');
+  const currentUser = stored ? JSON.parse(stored) as { name: string; email: string } : { name: 'Usuário', email: '' };
+
+  function handleLogout() {
+    localStorage.removeItem('arenapass_user');
+    navigate('/login', { replace: true });
+  }
+
   const menuItems = [
     { icon: User, label: 'Dados Pessoais', value: 'João Silva' },
     { icon: CreditCard, label: 'Formas de Pagamento', value: '2 cartões salvos' },
@@ -26,8 +37,8 @@ export function ProfileScreen() {
             <User className="w-10 h-10 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl mb-1">João Silva</h1>
-            <p className="text-white/80 text-sm">joao.silva@email.com</p>
+            <h1 className="text-2xl mb-1">{currentUser.name}</h1>
+            <p className="text-white/80 text-sm">{currentUser.email}</p>
           </div>
         </div>
 
@@ -76,7 +87,10 @@ export function ProfileScreen() {
           </button>
         </div>
 
-        <button className="w-full flex items-center justify-center gap-2 py-4 bg-white border border-gray-200 rounded-xl text-red-600 hover:bg-red-50 transition-colors">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 py-4 bg-white border border-gray-200 rounded-xl text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+        >
           <LogOut className="w-5 h-5" />
           Sair da Conta
         </button>
