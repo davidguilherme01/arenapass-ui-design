@@ -335,8 +335,9 @@ export function HomeScreen() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setShowFilterPanel(false)}
           />
-          <div className="relative bg-white rounded-t-3xl p-6 shadow-2xl">
-            <div className="flex items-center justify-between mb-6">
+          <div className="relative bg-white rounded-t-3xl shadow-2xl flex flex-col max-h-[85vh]">
+            {/* Header fixo */}
+            <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 shrink-0">
               <h3 className="text-lg font-medium">Filtros</h3>
               <button
                 onClick={() => setShowFilterPanel(false)}
@@ -346,48 +347,52 @@ export function HomeScreen() {
               </button>
             </div>
 
-            <div className="mb-6">
-              <p className="font-medium mb-3">Cidade</p>
-              <div className="flex flex-wrap gap-2">
-                {CITIES.map((city) => (
-                  <button
-                    key={city}
-                    onClick={() => setPendingCity(city)}
-                    className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${
-                      pendingCity === city
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {city}
-                  </button>
-                ))}
+            {/* Conteúdo com scroll */}
+            <div className="overflow-y-auto flex-1 px-6 py-4">
+              <div className="mb-6">
+                <p className="font-medium mb-3">Cidade</p>
+                <div className="flex flex-wrap gap-2">
+                  {CITIES.map((city) => (
+                    <button
+                      key={city}
+                      onClick={() => setPendingCity(city)}
+                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${
+                        pendingCity === city
+                          ? 'bg-primary text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {city}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="font-medium">Preço máximo</p>
+                  <span className="text-primary font-medium">
+                    {pendingMaxPrice === 500 ? 'Sem limite' : `R$ ${pendingMaxPrice}`}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={200}
+                  max={500}
+                  step={20}
+                  value={pendingMaxPrice}
+                  onChange={(e) => setPendingMaxPrice(Number(e.target.value))}
+                  className="w-full accent-primary"
+                />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>R$ 200</span>
+                  <span>Sem limite</span>
+                </div>
               </div>
             </div>
 
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-3">
-                <p className="font-medium">Preço máximo</p>
-                <span className="text-primary font-medium">
-                  {pendingMaxPrice === 500 ? 'Sem limite' : `R$ ${pendingMaxPrice}`}
-                </span>
-              </div>
-              <input
-                type="range"
-                min={200}
-                max={500}
-                step={20}
-                value={pendingMaxPrice}
-                onChange={(e) => setPendingMaxPrice(Number(e.target.value))}
-                className="w-full accent-primary"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>R$ 200</span>
-                <span>Sem limite</span>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
+            {/* Botões fixos na base */}
+            <div className="flex gap-3 px-6 py-4 border-t border-gray-100 shrink-0">
               <button
                 onClick={clearFilters}
                 className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
