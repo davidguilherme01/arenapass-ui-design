@@ -70,7 +70,7 @@ export function LoginScreen() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen max-w-[480px] mx-auto w-full">
+    <div className="flex flex-col min-h-screen">
 
       {/* ── Hero ── */}
       <div className="relative bg-primary flex flex-col items-center justify-center pt-10 pb-10 overflow-hidden">
@@ -116,7 +116,7 @@ export function LoginScreen() {
 
           {mode === 'register' && (
             <div>
-              <label className="block text-base font-medium text-gray-700 mb-2">Nome completo</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Nome completo</label>
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                 <input
@@ -125,14 +125,14 @@ export function LoginScreen() {
                   onChange={e => setName(e.target.value)}
                   placeholder="Seu nome completo"
                   autoComplete="name"
-                  className="w-full pl-11 pr-4 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base placeholder:text-[#9CA3AF]"
+                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
                 />
               </div>
             </div>
           )}
 
           <div>
-            <label className="block text-base font-medium text-gray-700 mb-2">E-mail</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">E-mail</label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
               <input
@@ -141,13 +141,13 @@ export function LoginScreen() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="seu@email.com"
                 autoComplete="email"
-                className="w-full pl-11 pr-4 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base placeholder:text-[#9CA3AF]"
+                className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-base font-medium text-gray-700 mb-2">Senha</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Senha</label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
               <input
@@ -156,7 +156,7 @@ export function LoginScreen() {
                 onChange={e => setPassword(e.target.value)}
                 placeholder={mode === 'register' ? 'Mínimo 6 caracteres' : 'Sua senha'}
                 autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                className="w-full pl-11 pr-12 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base placeholder:text-[#9CA3AF]"
+                className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
               />
               <button
                 type="button"
@@ -171,7 +171,7 @@ export function LoginScreen() {
 
           {mode === 'register' && (
             <div>
-              <label className="block text-base font-medium text-gray-700 mb-2">Confirmar senha</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirmar senha</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                 <input
@@ -180,7 +180,7 @@ export function LoginScreen() {
                   onChange={e => setConfirm(e.target.value)}
                   placeholder="Repita a senha"
                   autoComplete="new-password"
-                  className="w-full pl-11 pr-12 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base placeholder:text-[#9CA3AF]"
+                  className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-gray-900 text-base"
                 />
                 <button
                   type="button"
@@ -240,7 +240,7 @@ export function LoginScreen() {
           type="button"
           onClick={handleGoogleLogin}
           disabled={loadingGoogle || loading}
-          className="w-full flex items-center justify-center gap-3 py-4 bg-[#ffffff] border border-[#D1D5DB] rounded-2xl hover:bg-[#F9FAFB] active:scale-95 transition-all cursor-pointer shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-3 py-3.5 bg-white border border-gray-300 rounded-2xl hover:bg-gray-50 active:scale-95 transition-all cursor-pointer shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {loadingGoogle ? (
             <span className="w-5 h-5 border-2 border-gray-300 border-t-[#4285F4] rounded-full animate-spin" />
@@ -252,7 +252,7 @@ export function LoginScreen() {
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
           )}
-          <span className="text-base font-semibold text-gray-700">
+          <span className="text-sm font-semibold text-gray-700">
             {loadingGoogle ? 'Conectando...' : 'Continuar com Google'}
           </span>
         </button>
