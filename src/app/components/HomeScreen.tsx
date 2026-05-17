@@ -252,38 +252,72 @@ export function HomeScreen() {
           <>
             <div className="mb-8">
               <h2 className="mb-4">Partida em Destaque</h2>
-              <div className="relative rounded-2xl overflow-hidden shadow-lg">
+
+              {/* Card verde FIFA elegante */}
+              <div
+                className="relative rounded-2xl overflow-hidden border cursor-pointer"
+                style={{ backgroundColor: '#14532D', borderColor: '#166534' }}
+                onClick={() => navigate(`/match/${featuredMatch.id}`)}
+              >
+                {/* Imagem como textura de fundo */}
                 <ImageWithFallback
                   src={featuredMatch.image}
                   alt="Featured match"
-                  className="w-full h-48 object-cover"
+                  className="absolute inset-0 w-full h-full object-cover opacity-10"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <div className="inline-block px-3 py-1 bg-accent text-gray-900 rounded-lg text-xs mb-3">
-                    {featuredMatch.category}
+
+                {/* Padrão decorativo */}
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-5"
+                  style={{ background: 'radial-gradient(circle, #86EFAC, transparent)', transform: 'translate(30%, -30%)' }} />
+                <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full opacity-5"
+                  style={{ background: 'radial-gradient(circle, #86EFAC, transparent)', transform: 'translate(-30%, 30%)' }} />
+
+                <div className="relative p-6">
+                  {/* Topo: categoria + preço */}
+                  <div className="flex items-center justify-between mb-5">
+                    <span
+                      className="px-3 py-1 rounded-lg text-xs font-semibold"
+                      style={{ backgroundColor: '#FACC15', color: '#14532D' }}
+                    >
+                      {featuredMatch.category}
+                    </span>
+                    <span className="text-lg font-bold" style={{ color: '#FACC15' }}>
+                      {featuredMatch.priceLabel}
+                    </span>
                   </div>
-                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
+
+                  {/* Times */}
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-5">
                     <div className="flex items-center gap-2 min-w-0">
-                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-7 w-auto shadow-sm shrink-0" />
-                      <span className="text-xs font-bold uppercase opacity-80 shrink-0">{featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                      <span className="font-medium truncate">{featuredMatch.homeTeam}</span>
+                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-8 w-auto shadow-md shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold shrink-0" style={{ color: '#D1FAE5' }}>
+                          {featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}
+                        </p>
+                        <p className="font-semibold text-white truncate">{featuredMatch.homeTeam}</p>
+                      </div>
                     </div>
-                    <span className="text-xl text-center px-2">vs</span>
+                    <span className="text-xl font-bold text-center px-3" style={{ color: '#86EFAC' }}>vs</span>
                     <div className="flex items-center gap-2 justify-end min-w-0">
-                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-7 w-auto shadow-sm shrink-0" />
-                      <span className="text-xs font-bold uppercase opacity-80 shrink-0">{featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                      <span className="font-medium truncate">{featuredMatch.awayTeam}</span>
+                      <div className="min-w-0 text-right">
+                        <p className="text-xs font-bold" style={{ color: '#D1FAE5' }}>
+                          {featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}
+                        </p>
+                        <p className="font-semibold text-white truncate">{featuredMatch.awayTeam}</p>
+                      </div>
+                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-8 w-auto shadow-md shrink-0" />
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-white/80">
+
+                  {/* Rodapé: data + local */}
+                  <div className="flex items-center justify-between text-sm" style={{ color: '#D1FAE5' }}>
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       {featuredMatch.date} • {featuredMatch.time}
                     </div>
                     <div className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
-                      {featuredMatch.city}
+                      {featuredMatch.stadium}
                     </div>
                   </div>
                 </div>
@@ -302,41 +336,60 @@ export function HomeScreen() {
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {filteredMatches.map((match) => (
                   <div
                     key={match.id}
                     onClick={() => navigate(`/match/${match.id}`)}
-                    className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow"
+                    className="rounded-2xl p-5 cursor-pointer transition-all duration-150 border"
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      borderColor: '#E5E7EB',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
                   >
+                    {/* Topo: categoria + preço */}
                     <div className="flex items-center justify-between mb-3">
-                      <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs">
+                      <span
+                        className="px-3 py-1 rounded-lg text-xs font-medium"
+                        style={{ backgroundColor: '#F3F4F6', color: '#374151' }}
+                      >
                         {match.category}
                       </span>
-                      <span className="text-primary font-medium">{match.priceLabel}</span>
+                      <span className="font-semibold text-sm" style={{ color: '#16A34A' }}>
+                        {match.priceLabel}
+                      </span>
                     </div>
 
+                    {/* Times */}
                     <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
                       <div className="flex items-center gap-2 min-w-0">
                         <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
-                        <span className="text-xs font-bold text-gray-500 uppercase shrink-0">{match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                        <span className="font-medium truncate">{match.homeTeam}</span>
+                        <span className="text-xs font-bold uppercase shrink-0" style={{ color: '#6B7280' }}>
+                          {match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}
+                        </span>
+                        <span className="font-semibold truncate" style={{ color: '#111827' }}>{match.homeTeam}</span>
                       </div>
-                      <span className="text-gray-400 text-sm text-center px-2">vs</span>
+                      <span className="text-sm font-medium text-center px-2" style={{ color: '#9CA3AF' }}>vs</span>
                       <div className="flex items-center gap-2 justify-end min-w-0">
-                        <span className="font-medium truncate">{match.awayTeam}</span>
-                        <span className="text-xs font-bold text-gray-500 uppercase shrink-0">{match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
+                        <span className="font-semibold truncate" style={{ color: '#111827' }}>{match.awayTeam}</span>
+                        <span className="text-xs font-bold uppercase shrink-0" style={{ color: '#6B7280' }}>
+                          {match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}
+                        </span>
                         <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between text-sm text-gray-600">
+                    {/* Rodapé: data + estádio */}
+                    <div className="flex items-center justify-between text-xs" style={{ color: '#6B7280' }}>
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
+                        <Calendar className="w-3.5 h-3.5" />
                         {match.date} • {match.time}
                       </div>
                       <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
+                        <MapPin className="w-3.5 h-3.5" />
                         {match.stadium}
                       </div>
                     </div>
