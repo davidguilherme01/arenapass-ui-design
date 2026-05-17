@@ -340,7 +340,7 @@ export function HomeScreen() {
                         <p className="font-semibold text-white truncate">{featuredMatch.homeTeam}</p>
                       </div>
                     </div>
-                    <span className="text-xl font-bold text-center px-3 text-[#86EFAC]">vs</span>
+                    <span className="text-3xl font-bold text-center px-3 text-[#86EFAC]">vs</span>
                     <div className="flex items-center gap-2 justify-end min-w-0">
                       <div className="min-w-0 text-right">
                         <p className="text-xs font-bold text-[#D1FAE5]">
@@ -405,7 +405,7 @@ export function HomeScreen() {
                         </span>
                         <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.homeTeam}</span>
                       </div>
-                      <span className="text-sm font-medium text-center px-2 text-[#9CA3AF] dark:text-[#6b7280]">vs</span>
+                      <span className="text-lg font-bold text-center px-2 text-[#9CA3AF] dark:text-[#6b7280]">vs</span>
                       <div className="flex items-center gap-2 justify-end min-w-0">
                         <span className="font-semibold truncate text-[#111827] dark:text-[#e6e6e6]">{match.awayTeam}</span>
                         <span className="text-xs font-bold uppercase shrink-0 text-[#6B7280] dark:text-[#8a8a8a]">
