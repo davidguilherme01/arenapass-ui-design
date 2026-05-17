@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   MapPin, Trophy, ChevronRight, X, Bus, Hotel, Camera,
   Sun, Utensils, Shield, Calendar, Users,
@@ -116,26 +116,24 @@ const CITY_GUIDES: Record<string, CityGuide> = {
   },
 };
 
-// ─── Map pins (all 16 FIFA 2026 host cities) ─────────────────────────────────
-// Coordinates projected onto a ~4:3 North America bounding box
-// Bounds: W=130°, E=60°, N=58°, S=13°  →  x=(130-lon)/70*100, y=(58-lat)/45*100
-const MAP_PINS = [
-  { city: 'Vancouver',        x: 10, y: 20 },
-  { city: 'Seattle',          x: 11, y: 24 },
-  { city: 'Toronto',          x: 73, y: 31 },
-  { city: 'São Francisco',    x: 11, y: 47 },
-  { city: 'Los Angeles',      x: 17, y: 53 },
-  { city: 'Kansas City',      x: 51, y: 42 },
-  { city: 'Filadélfia',       x: 79, y: 40 },
-  { city: 'Nova York',        x: 80, y: 38 },
-  { city: 'Boston',           x: 84, y: 36 },
-  { city: 'Dallas',           x: 47, y: 56 },
-  { city: 'Houston',          x: 50, y: 62 },
-  { city: 'Atlanta',          x: 66, y: 53 },
-  { city: 'Miami',            x: 71, y: 71 },
-  { city: 'Guadalajara',      x: 39, y: 82 },
-  { city: 'Monterrey',        x: 43, y: 71 },
-  { city: 'Cidade do México', x: 44, y: 87 },
+// ─── FIFA 2026 host venues (real lat/lng for Google Maps) ────────────────────
+const FIFA_MAP_VENUES = [
+  { displayName: 'Vancouver',        stadium: 'BC Place',                  lat: 49.2767,  lng: -123.1119, guide: 'Vancouver'        },
+  { displayName: 'Seattle',          stadium: 'Lumen Field',               lat: 47.5952,  lng: -122.3316, guide: null               },
+  { displayName: 'São Francisco',    stadium: "Levi's Stadium",            lat: 37.4032,  lng: -121.9699, guide: null               },
+  { displayName: 'Los Angeles',      stadium: 'SoFi Stadium',              lat: 33.9535,  lng: -118.3392, guide: 'Los Angeles'      },
+  { displayName: 'Kansas City',      stadium: 'Arrowhead Stadium',         lat: 39.0489,  lng: -94.4839,  guide: null               },
+  { displayName: 'Dallas',           stadium: 'AT&T Stadium',              lat: 32.7480,  lng: -97.0931,  guide: 'Dallas'           },
+  { displayName: 'Houston',          stadium: 'NRG Stadium',               lat: 29.6847,  lng: -95.4107,  guide: null               },
+  { displayName: 'Atlanta',          stadium: 'Mercedes-Benz Stadium',     lat: 33.7553,  lng: -84.4006,  guide: null               },
+  { displayName: 'Miami',            stadium: 'Hard Rock Stadium',         lat: 25.9580,  lng: -80.2388,  guide: 'Miami'            },
+  { displayName: 'Filadélfia',       stadium: 'Lincoln Financial Field',   lat: 39.9007,  lng: -75.1675,  guide: null               },
+  { displayName: 'Nova York / NJ',   stadium: 'MetLife Stadium',           lat: 40.8135,  lng: -74.0745,  guide: 'Nova York / NJ'  },
+  { displayName: 'Boston',           stadium: 'Gillette Stadium',          lat: 42.0909,  lng: -71.2643,  guide: null               },
+  { displayName: 'Toronto',          stadium: 'BMO Field',                 lat: 43.6331,  lng: -79.4188,  guide: 'Toronto'          },
+  { displayName: 'Guadalajara',      stadium: 'Estadio Akron',             lat: 20.6869,  lng: -103.4729, guide: null               },
+  { displayName: 'Monterrey',        stadium: 'Estadio BBVA',              lat: 25.6690,  lng: -100.2462, guide: null               },
+  { displayName: 'Cidade do México', stadium: 'Estadio Azteca',            lat: 19.3031,  lng: -99.1506,  guide: 'Cidade do México' },
 ];
 
 type GuideTab = 'transporte' | 'hoteis' | 'turismo' | 'clima';
@@ -160,6 +158,86 @@ export function ExploreScreen() {
     setSelectedCity(cityName);
     setGuideTab('transporte');
   }
+
+  // ── Google Maps ──────────────────────────────────────────────────────────────
+  const mapDivRef = useRef<HTMLDivElement>(null);
+  const openGuideRef = useRef(openCityGuide);
+  openGuideRef.current = openCityGuide;
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const apiKey: string = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string) ?? '';
+    if (!apiKey || !mapDivRef.current) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as any;
+
+    function initMap() {
+      if (!mapDivRef.current) return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const maps = (window as any).google?.maps;
+      if (!maps) return;
+
+      const map = new maps.Map(mapDivRef.current, {
+        center: { lat: 37.5, lng: -96 },
+        zoom: 3,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        zoomControlOptions: { position: 9 },
+      });
+
+      FIFA_MAP_VENUES.forEach(venue => {
+        const marker = new maps.Marker({
+          position: { lat: venue.lat, lng: venue.lng },
+          map,
+          title: venue.displayName,
+          icon: {
+            path: maps.SymbolPath.CIRCLE,
+            scale: venue.guide ? 9 : 6,
+            fillColor: '#F5C518',
+            fillOpacity: 1,
+            strokeColor: venue.guide ? '#1E7F43' : '#999999',
+            strokeWeight: venue.guide ? 2.5 : 1,
+          },
+        });
+
+        const infoWindow = new maps.InfoWindow({
+          content: `<div style="font-family:sans-serif;font-size:13px;line-height:1.5;padding:2px 4px">
+            <strong>${venue.displayName}</strong><br/>
+            <span style="color:#555;font-size:12px">${venue.stadium}</span>
+            ${venue.guide ? '<br/><span style="color:#1E7F43;font-size:11px;font-weight:600">▶ Ver guia da cidade</span>' : ''}
+          </div>`,
+        });
+
+        marker.addListener('click', () => {
+          infoWindow.open({ anchor: marker, map });
+          if (venue.guide) openGuideRef.current(venue.guide);
+        });
+      });
+    }
+
+    if (win.google?.maps) {
+      initMap();
+      return;
+    }
+
+    if (document.getElementById('google-maps-api')) {
+      const poll = setInterval(() => {
+        if (win.google?.maps) { clearInterval(poll); initMap(); }
+      }, 100);
+      return () => clearInterval(poll);
+    }
+
+    const script = document.createElement('script');
+    script.id = 'google-maps-api';
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = initMap;
+    document.head.appendChild(script);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
@@ -361,48 +439,29 @@ export function ExploreScreen() {
           </div>
         </section>
 
-        {/* ── Mapa visual das 16 sedes ── */}
+        {/* ── Google Maps das 16 sedes ── */}
         <section>
           <h2 className="mb-3">🗺️ Mapa das Sedes</h2>
-          <div
-            className="relative w-full rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-[#0d2137] via-[#0f3050] to-[#091c2e]"
-            style={{ paddingBottom: '72%' }}
-          >
-            <div className="absolute inset-0">
-              {/* Country region labels */}
-              <span className="absolute text-white/35 text-[9px] font-bold uppercase tracking-widest pointer-events-none" style={{ top: '5%', left: '38%' }}>🇨🇦 Canadá</span>
-              <span className="absolute text-white/35 text-[9px] font-bold uppercase tracking-widest pointer-events-none" style={{ top: '40%', left: '14%' }}>🇺🇸 Estados Unidos</span>
-              <span className="absolute text-white/35 text-[9px] font-bold uppercase tracking-widest pointer-events-none" style={{ top: '74%', left: '14%' }}>🇲🇽 México</span>
-
-              {/* City pins */}
-              {MAP_PINS.map(pin => {
-                const cityData = CITIES.find(c =>
-                  c.name.toLowerCase().includes(pin.city.toLowerCase()) ||
-                  pin.city.toLowerCase().includes(c.name.split('/')[0].trim().toLowerCase())
-                );
-                const hasGuide = !!cityData;
-                return (
-                  <button
-                    key={pin.city}
-                    style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 group cursor-pointer"
-                    onClick={() => hasGuide && openCityGuide(cityData!.name)}
-                  >
-                    <div className={`rounded-full transition-transform duration-200 group-hover:scale-150 ${
-                      hasGuide
-                        ? 'w-3 h-3 bg-accent shadow-[0_0_6px_rgba(245,197,24,0.7)]'
-                        : 'w-2 h-2 bg-accent/50'
-                    }`} />
-                    <span className="text-white/90 text-[8px] font-semibold bg-black/60 px-1 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                      {pin.city}
-                    </span>
-                  </button>
-                );
-              })}
+          {(import.meta.env.VITE_GOOGLE_MAPS_API_KEY) ? (
+            <div
+              ref={mapDivRef}
+              className="w-full rounded-2xl overflow-hidden shadow-lg"
+              style={{ height: 340 }}
+            />
+          ) : (
+            <div className="w-full rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-[#e8f5e9] to-[#c8e6c9] dark:from-[#1a2e1a] dark:to-[#0d1f0d] flex flex-col items-center justify-center gap-4 px-6 text-center" style={{ height: 220 }}>
+              <MapPin className="w-10 h-10 text-primary/60" />
+              <div>
+                <p className="font-semibold text-gray-700 dark:text-gray-200 mb-1">Google Maps desativado</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Crie um arquivo <code className="bg-white/70 dark:bg-black/30 px-1.5 py-0.5 rounded font-mono text-xs">.env</code> na raiz do projeto com:<br/>
+                  <code className="bg-white/70 dark:bg-black/30 px-1.5 py-0.5 rounded font-mono text-xs">VITE_GOOGLE_MAPS_API_KEY=sua_chave_aqui</code>
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <p className="text-xs text-gray-500 dark:text-[#6e6e6e] text-center mt-2">
-            ✨ Pontos amarelos = 16 cidades-sede · Toque nos maiores para ver o guia
+            🌎 16 cidades-sede · Marcadores maiores têm guia de viagem
           </p>
         </section>
 
