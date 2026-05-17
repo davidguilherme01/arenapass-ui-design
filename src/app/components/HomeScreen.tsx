@@ -124,12 +124,20 @@ export function HomeScreen() {
   const [maxPrice, setMaxPrice] = useState(500);
   const [pendingCity, setPendingCity] = useState('Todas as cidades');
   const [pendingMaxPrice, setPendingMaxPrice] = useState(500);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredMatches = ALL_MATCHES.filter((m) => {
     const categoryMatch = activeCategory === 'Todos' || m.category === activeCategory;
     const cityMatch = selectedCity === 'Todas as cidades' || m.city === selectedCity;
     const priceMatch = m.price <= maxPrice;
-    return categoryMatch && cityMatch && priceMatch;
+    const q = searchQuery.toLowerCase().trim();
+    const searchMatch =
+      !q ||
+      m.homeTeam.toLowerCase().includes(q) ||
+      m.awayTeam.toLowerCase().includes(q) ||
+      m.stadium.toLowerCase().includes(q) ||
+      m.city.toLowerCase().includes(q);
+    return categoryMatch && cityMatch && priceMatch && searchMatch;
   });
 
   const featuredMatch = filteredMatches[0] ?? ALL_MATCHES[0];
@@ -176,9 +184,21 @@ export function HomeScreen() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Buscar times, estádios..."
-            className="w-full bg-white text-gray-900 rounded-xl pl-12 pr-4 py-3 outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Buscar times, estádios, cidades..."
+            className="w-full bg-white text-gray-900 rounded-xl pl-12 pr-10 py-3 outline-none"
+            aria-label="Buscar partidas"
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+              aria-label="Limpar busca"
+            >
+              <X className="w-3.5 h-3.5 text-gray-600" />
+            </button>
+          )}
         </div>
       </header>
 
@@ -243,17 +263,17 @@ export function HomeScreen() {
                   <div className="inline-block px-3 py-1 bg-accent text-gray-900 rounded-lg text-xs mb-3">
                     {featuredMatch.category}
                   </div>
-                  <div className="flex items-center gap-4 mb-3">
-                    <div className="flex items-center gap-2">
-                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-7 w-auto shadow-sm" />
-                      <span className="text-xs font-bold uppercase opacity-80">{featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                      <span className="font-medium">{featuredMatch.homeTeam}</span>
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <FlagIcon code={featuredMatch.homeCode} size={40} alt={featuredMatch.homeTeam} className="h-7 w-auto shadow-sm shrink-0" />
+                      <span className="text-xs font-bold uppercase opacity-80 shrink-0">{featuredMatch.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
+                      <span className="font-medium truncate">{featuredMatch.homeTeam}</span>
                     </div>
-                    <span className="text-xl">vs</span>
-                    <div className="flex items-center gap-2">
-                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-7 w-auto shadow-sm" />
-                      <span className="text-xs font-bold uppercase opacity-80">{featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                      <span className="font-medium">{featuredMatch.awayTeam}</span>
+                    <span className="text-xl text-center px-2">vs</span>
+                    <div className="flex items-center gap-2 justify-end min-w-0">
+                      <FlagIcon code={featuredMatch.awayCode} size={40} alt={featuredMatch.awayTeam} className="h-7 w-auto shadow-sm shrink-0" />
+                      <span className="text-xs font-bold uppercase opacity-80 shrink-0">{featuredMatch.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
+                      <span className="font-medium truncate">{featuredMatch.awayTeam}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-white/80">
@@ -296,17 +316,17 @@ export function HomeScreen() {
                       <span className="text-primary font-medium">{match.priceLabel}</span>
                     </div>
 
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm" />
-                        <span className="text-xs font-bold text-gray-500 uppercase">{match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                        <span className="font-medium">{match.homeTeam}</span>
+                    <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FlagIcon code={match.homeCode} size={40} alt={match.homeTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
+                        <span className="text-xs font-bold text-gray-500 uppercase shrink-0">{match.homeCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
+                        <span className="font-medium truncate">{match.homeTeam}</span>
                       </div>
-                      <span className="text-gray-400 text-sm">vs</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{match.awayTeam}</span>
-                        <span className="text-xs font-bold text-gray-500 uppercase">{match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
-                        <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm" />
+                      <span className="text-gray-400 text-sm text-center px-2">vs</span>
+                      <div className="flex items-center gap-2 justify-end min-w-0">
+                        <span className="font-medium truncate">{match.awayTeam}</span>
+                        <span className="text-xs font-bold text-gray-500 uppercase shrink-0">{match.awayCode.replace('gb-eng', 'ENG').toUpperCase()}</span>
+                        <FlagIcon code={match.awayCode} size={40} alt={match.awayTeam} className="h-6 w-auto shadow-sm rounded-sm shrink-0" />
                       </div>
                     </div>
 
