@@ -14,8 +14,15 @@ export function ProfileScreen() {
     navigate('/login', { replace: true });
   }
 
+  const initials = currentUser.name
+    .split(' ')
+    .slice(0, 2)
+    .map(n => n[0])
+    .join('')
+    .toUpperCase();
+
   const menuItems = [
-    { icon: User, label: 'Dados Pessoais', value: 'João Silva' },
+    { icon: User, label: 'Dados Pessoais', value: currentUser.name },
     { icon: CreditCard, label: 'Formas de Pagamento', value: '2 cartões salvos' },
     { icon: Bell, label: 'Notificações', value: 'Ativadas' },
     { icon: Globe, label: 'Idioma', value: 'Português (BR)' },
@@ -33,8 +40,8 @@ export function ProfileScreen() {
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
       <header className="bg-primary text-white px-6 py-8 rounded-b-3xl shadow-lg">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-            <User className="w-10 h-10 text-primary" />
+          <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center shadow-lg">
+            <span className="text-2xl font-bold text-gray-900">{initials}</span>
           </div>
           <div>
             <h1 className="text-2xl mb-1">{currentUser.name}</h1>
