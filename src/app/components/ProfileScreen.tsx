@@ -39,11 +39,6 @@ export function ProfileScreen() {
     { icon: Settings,    label: 'Configurações',       value: '',                 id: 'configuracoes' },
   ];
 
-  const stats = [
-    { label: 'Ingressos', value: '12' },
-    { label: 'Partidas',  value: '8'  },
-    { label: 'Gastos',    value: 'R$ 5.2k' },
-  ];
 
   const idiomas = ['Português (BR)', 'English (US)', 'Español'];
 
@@ -68,14 +63,6 @@ export function ProfileScreen() {
             <h1 className="text-2xl mb-1">{currentUser.name}</h1>
             <p className="text-white/80 text-sm">{currentUser.email}</p>
           </div>
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          {stats.map(stat => (
-            <div key={stat.label} className="bg-white/10 backdrop-blur rounded-xl p-4 text-center">
-              <p className="text-2xl mb-1">{stat.value}</p>
-              <p className="text-white/80 text-xs">{stat.label}</p>
-            </div>
-          ))}
         </div>
       </header>
 
