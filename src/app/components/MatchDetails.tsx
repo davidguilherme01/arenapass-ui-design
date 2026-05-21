@@ -1,4 +1,5 @@
-import { ArrowLeft, Calendar, MapPin, Users, Info } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Calendar, MapPin, Users, Info, Check } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
 import { ImageWithFallback } from './ImageWithFallback';
 import { FlagIcon } from './FlagIcon';
@@ -6,12 +7,13 @@ import { FlagIcon } from './FlagIcon';
 export function MatchDetails() {
   const navigate = useNavigate();
   const { matchId } = useParams();
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   const ticketCategories = [
-    { id: 1, name: 'VIP', price: 850, available: 12, color: 'bg-purple-500' },
-    { id: 2, name: 'Premium', price: 650, available: 45, color: 'bg-primary' },
-    { id: 3, name: 'Arquibancada Superior', price: 450, available: 234, color: 'bg-blue-500' },
-    { id: 4, name: 'Arquibancada Inferior', price: 280, available: 567, color: 'bg-green-500' },
+    { id: 1, name: 'VIP',                   price: 850, available: 12,  color: 'bg-purple-500', border: 'border-purple-500', ring: 'ring-purple-400' },
+    { id: 2, name: 'Premium',               price: 650, available: 45,  color: 'bg-primary',    border: 'border-primary',    ring: 'ring-primary'    },
+    { id: 3, name: 'Arquibancada Superior', price: 450, available: 234, color: 'bg-blue-500',   border: 'border-blue-500',   ring: 'ring-blue-400'   },
+    { id: 4, name: 'Arquibancada Inferior', price: 280, available: 567, color: 'bg-green-500',  border: 'border-green-500',  ring: 'ring-green-400'  },
   ];
 
   return (
@@ -96,35 +98,67 @@ export function MatchDetails() {
         <div>
           <h2 className="mb-4">Categorias de Ingressos</h2>
           <div className="space-y-3">
-            {ticketCategories.map((category) => (
-              <div
-                key={category.id}
-                className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${category.color}`} />
-                    <span className="font-medium">{category.name}</span>
+            {ticketCategories.map((category) => {
+              const isSelected = selectedCategory === category.id;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`w-full text-left bg-white border-2 rounded-xl p-4 transition-all cursor-pointer ${
+                    isSelected
+                      ? `${category.border} ring-2 ${category.ring} shadow-md`
+                      : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-3 h-3 rounded-full ${category.color}`} />
+                      <span className="font-medium">{category.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-primary text-lg font-semibold">R$ {category.price}</span>
+                      {isSelected && (
+                        <div className={`w-6 h-6 rounded-full ${category.color} flex items-center justify-center`}>
+                          <Check className="w-4 h-4 text-white" />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <span className="text-primary text-lg">R$ {category.price}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">{category.available} ingressos disponíveis</span>
-                  {category.available < 50 && (
-                    <span className="text-orange-500">Últimos ingressos!</span>
-                  )}
-                </div>
-              </div>
-            ))}
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">{category.available} ingressos disponíveis</span>
+                    {category.available < 50 && (
+                      <span className="text-orange-500 font-medium">Últimos ingressos!</span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="mt-6 pb-6">
+        <div className="mt-6 pb-6 space-y-3">
+          {selectedCategory && (
+            <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-xl text-sm text-green-700">
+              <Check className="w-4 h-4 shrink-0" />
+              <span>
+                <span className="font-semibold">
+                  {ticketCategories.find(c => c.id === selectedCategory)?.name}
+                </span>
+                {' '}selecionada — R${' '}
+                {ticketCategories.find(c => c.id === selectedCategory)?.price} por ingresso
+              </span>
+            </div>
+          )}
           <button
-            onClick={() => navigate(`/seat-selection/${matchId}`)}
-            className="w-full bg-primary text-white py-4 rounded-xl shadow-lg hover:bg-primary/90 transition-colors"
+            onClick={() => selectedCategory && navigate(`/seat-selection/${matchId}?category=${selectedCategory}`)}
+            disabled={!selectedCategory}
+            className={`w-full py-4 rounded-xl shadow-lg transition-all font-semibold text-white ${
+              selectedCategory
+                ? 'bg-primary hover:bg-primary/90 active:scale-95'
+                : 'bg-gray-300 cursor-not-allowed'
+            }`}
           >
-            Selecionar Assentos
+            {selectedCategory ? 'Selecionar Assentos' : 'Escolha uma categoria'}
           </button>
         </div>
       </div>
