@@ -80,6 +80,37 @@
   --sidebar-ring: #1E7F43;
 }
 
+/* ── Modos daltônicos ── (controlados por data-colorblind no <html>) */
+[data-colorblind="deuteranopia"] {
+  --primary: #004d99;
+  --primary-foreground: #ffffff;
+  --accent: #e68a00;
+  --accent-foreground: #ffffff;
+  --ring: #004d99;
+  --chart-1: #004d99;
+  --chart-2: #e68a00;
+}
+
+[data-colorblind="protanopia"] {
+  --primary: #005588;
+  --primary-foreground: #ffffff;
+  --accent: #ddaa00;
+  --accent-foreground: #ffffff;
+  --ring: #005588;
+  --chart-1: #005588;
+  --chart-2: #ddaa00;
+}
+
+[data-colorblind="tritanopia"] {
+  --primary: #994400;
+  --primary-foreground: #ffffff;
+  --accent: #cc0044;
+  --accent-foreground: #ffffff;
+  --ring: #994400;
+  --chart-1: #994400;
+  --chart-2: #cc0044;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

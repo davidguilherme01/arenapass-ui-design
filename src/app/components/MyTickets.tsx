@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, Share2, Bell, QrCode, MapPin, Calendar, Trash2, AlertTriangle, X } from 'lucide-react';
+import { Download, Share2, Bell, QrCode, MapPin, Calendar, Trash2, AlertTriangle, X, CheckCircle2 } from 'lucide-react';
 import { BottomNavigation } from './BottomNavigation';
 import { FlagIcon } from './FlagIcon';
 
@@ -65,7 +65,12 @@ export function MyTickets() {
                   <div className="inline-block px-3 py-1 bg-accent text-gray-900 rounded-lg text-xs">
                     {ticket.category}
                   </div>
-                  <div className="px-3 py-1 bg-white/20 backdrop-blur rounded-lg text-xs">
+                  <div
+                    className="flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur rounded-lg text-xs"
+                    role="status"
+                    aria-label="Status: Confirmado"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                     Confirmado
                   </div>
                 </div>
@@ -111,10 +116,14 @@ export function MyTickets() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-2xl p-6 mb-4 flex items-center justify-center">
+              <div
+                className="bg-gray-50 rounded-2xl p-6 mb-4 flex items-center justify-center"
+                role="img"
+                aria-label="QR Code do ingresso. Apresente este código na entrada do estádio."
+              >
                 <div className="text-center">
-                  <div className="w-32 h-32 bg-white rounded-xl flex items-center justify-center mb-3 mx-auto">
-                    <QrCode className="w-24 h-24 text-gray-400" />
+                  <div className="w-36 h-36 bg-white rounded-xl flex items-center justify-center mb-3 mx-auto border-4 border-white shadow-sm">
+                    <QrCode className="w-28 h-28 text-gray-900" aria-hidden="true" />
                   </div>
                   <p className="text-sm text-gray-600">Código do Ingresso</p>
                   <p className="font-mono text-sm mt-1">{ticket.qrCode}</p>

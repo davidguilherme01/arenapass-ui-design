@@ -11,6 +11,10 @@
           if (localStorage.getItem('darkMode') === 'true') {
             document.documentElement.classList.add('dark');
           }
+          var cb = localStorage.getItem('colorblind');
+          if (cb && cb !== 'none') {
+            document.documentElement.setAttribute('data-colorblind', cb);
+          }
         })();
       </script>
     </head>
