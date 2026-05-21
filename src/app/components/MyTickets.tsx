@@ -1,9 +1,11 @@
-import { Download, Share2, Bell, QrCode, MapPin, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import { Download, Share2, Bell, QrCode, MapPin, Calendar, Trash2, AlertTriangle, X } from 'lucide-react';
 import { BottomNavigation } from './BottomNavigation';
 import { FlagIcon } from './FlagIcon';
 
 export function MyTickets() {
-  const tickets = [
+  const [cancelId, setCancelId] = useState<number | null>(null);
+  const [tickets, setTickets] = useState([
     {
       id: 1,
       matchTitle: 'Brasil vs Argentina',
@@ -32,7 +34,14 @@ export function MyTickets() {
       qrCode: '****-****-****-5678',
       status: 'confirmed'
     },
-  ];
+  ]);
+
+  const ticketToCancel = tickets.find(t => t.id === cancelId);
+
+  function confirmCancel() {
+    setTickets(prev => prev.filter(t => t.id !== cancelId));
+    setCancelId(null);
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
@@ -113,19 +122,27 @@ export function MyTickets() {
               </div>
 
               <div className="grid grid-cols-3 gap-3">
-                <button className="flex flex-col items-center gap-2 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                <button className="flex flex-col items-center gap-2 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
                   <Download className="w-5 h-5 text-primary" />
                   <span className="text-xs">Baixar</span>
                 </button>
-                <button className="flex flex-col items-center gap-2 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                <button className="flex flex-col items-center gap-2 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
                   <Share2 className="w-5 h-5 text-primary" />
                   <span className="text-xs">Transferir</span>
                 </button>
-                <button className="flex flex-col items-center gap-2 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                <button className="flex flex-col items-center gap-2 py-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
                   <Bell className="w-5 h-5 text-primary" />
                   <span className="text-xs">Lembrete</span>
                 </button>
               </div>
+
+              <button
+                onClick={() => setCancelId(ticket.id)}
+                className="mt-4 w-full flex items-center justify-center gap-2 py-3 border-2 border-red-200 text-red-600 rounded-xl hover:bg-red-50 transition-colors cursor-pointer font-medium"
+              >
+                <Trash2 className="w-4 h-4" />
+                Cancelar Ingresso
+              </button>
 
               <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-start gap-2">
                 <Bell className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -154,6 +171,65 @@ export function MyTickets() {
       </div>
 
       <BottomNavigation />
+
+      {/* ── Modal cancelar ingresso ── */}
+      {cancelId && ticketToCancel && (
+        <div className="fixed inset-0 z-[60] flex items-end">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setCancelId(null)} />
+          <div className="relative w-full bg-white rounded-t-3xl shadow-2xl px-6 pt-6 pb-10">
+            <div className="flex justify-center mb-4">
+              <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            </div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">Cancelar ingresso?</h2>
+                <p className="text-sm text-gray-500">Esta ação não pode ser desfeita.</p>
+              </div>
+              <button onClick={() => setCancelId(null)} className="ml-auto w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-4 mb-5 text-sm space-y-1">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Partida</span>
+                <span className="font-medium">{ticketToCancel.matchTitle}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Data</span>
+                <span className="font-medium">{ticketToCancel.date} • {ticketToCancel.time}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Assentos</span>
+                <span className="font-medium">{ticketToCancel.seats}</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-400 text-center mb-4">
+              O reembolso será processado em até 5 dias úteis.
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setCancelId(null)}
+                className="flex-1 py-3.5 rounded-xl border-2 border-gray-200 font-semibold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+                Voltar
+              </button>
+              <button
+                onClick={confirmCancel}
+                className="flex-1 py-3.5 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                Sim, cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ArrowLeft, CreditCard, Smartphone, Wallet, Lock, Check } from 'lucide-react';
+import { ArrowLeft, CreditCard, Smartphone, Wallet, Lock, Check, AlertTriangle, X } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
 import { useState } from 'react';
 
@@ -7,8 +7,10 @@ export function PaymentScreen() {
   const { matchId } = useParams();
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
   const [processing, setProcessing] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handlePayment = () => {
+    setShowConfirm(false);
     setProcessing(true);
     setTimeout(() => {
       setProcessing(false);
@@ -206,7 +208,7 @@ export function PaymentScreen() {
 
       <div className="bg-white border-t border-gray-200 px-6 py-6">
         <button
-          onClick={handlePayment}
+          onClick={() => setShowConfirm(true)}
           disabled={processing}
           className="w-full bg-primary text-white py-4 rounded-xl shadow-lg hover:bg-primary/90 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
@@ -223,6 +225,61 @@ export function PaymentScreen() {
           )}
         </button>
       </div>
+
+      {/* ── Modal de confirmação ── */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-[60] flex items-end">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowConfirm(false)} />
+          <div className="relative w-full bg-white rounded-t-3xl shadow-2xl px-6 pt-6 pb-10">
+            <div className="flex justify-center mb-4">
+              <div className="w-10 h-1 bg-gray-300 rounded-full" />
+            </div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">Tem certeza?</h2>
+                <p className="text-sm text-gray-500">Esta ação irá finalizar sua compra.</p>
+              </div>
+              <button onClick={() => setShowConfirm(false)} className="ml-auto w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-4 mb-5 text-sm space-y-1">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Partida</span>
+                <span className="font-medium">Brasil vs Argentina</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Assentos</span>
+                <span className="font-medium">A12, A13, A14</span>
+              </div>
+              <div className="flex justify-between pt-1 border-t border-gray-200 mt-1">
+                <span className="text-gray-500">Total</span>
+                <span className="font-bold text-primary">R$ 1.417,50</span>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 py-3.5 rounded-xl border-2 border-gray-200 font-semibold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handlePayment}
+                className="flex-1 py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Lock className="w-4 h-4" />
+                Sim, confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
