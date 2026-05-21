@@ -1,11 +1,22 @@
-import { ArrowLeft, Minus, Plus } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { useState } from 'react';
+
+const CATEGORY_PRICES: Record<string, { name: string; price: number }> = {
+  '1': { name: 'VIP',                   price: 850 },
+  '2': { name: 'Premium',               price: 650 },
+  '3': { name: 'Arquibancada Superior', price: 450 },
+  '4': { name: 'Arquibancada Inferior', price: 280 },
+};
 
 export function SeatSelection() {
   const navigate = useNavigate();
   const { matchId } = useParams();
+  const [searchParams] = useSearchParams();
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+
+  const categoryId = searchParams.get('category') ?? '3';
+  const category = CATEGORY_PRICES[categoryId] ?? CATEGORY_PRICES['3'];
 
   const rows = 12;
   const seatsPerRow = 20;
@@ -13,7 +24,6 @@ export function SeatSelection() {
 
   const toggleSeat = (seatNumber: number) => {
     if (unavailableSeats.has(seatNumber)) return;
-
     setSelectedSeats(prev =>
       prev.includes(seatNumber)
         ? prev.filter(s => s !== seatNumber)
@@ -21,7 +31,7 @@ export function SeatSelection() {
     );
   };
 
-  const totalPrice = selectedSeats.length * 450;
+  const totalPrice = selectedSeats.length * category.price;
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -34,7 +44,9 @@ export function SeatSelection() {
         </button>
         <div>
           <h1 className="text-xl">Seleção de Assentos</h1>
-          <p className="text-sm text-gray-600">Brasil vs Argentina</p>
+          <p className="text-sm text-gray-600">
+            {category.name} · R$ {category.price}/ingresso
+          </p>
         </div>
       </header>
 
@@ -99,18 +111,7 @@ export function SeatSelection() {
         <div className="bg-gray-50 rounded-xl p-4 mb-4">
           <div className="flex items-center justify-between mb-3">
             <span className="text-gray-600">Assentos Selecionados</span>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setSelectedSeats([])}
-                className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-              >
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="font-medium min-w-[2ch] text-center">{selectedSeats.length}</span>
-              <button className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90">
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
+            <span className="font-semibold text-gray-800">{selectedSeats.length} assento{selectedSeats.length !== 1 ? 's' : ''}</span>
           </div>
 
           {selectedSeats.length > 0 && (
